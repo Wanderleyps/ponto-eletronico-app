@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PontoEletronico.Application\PontoEletronico.Application.csproj" />
     <ProjectReference Include="..\PontoEletronico.Domain\PontoEletronico.Domain.csproj" />
     <ProjectReference Include="..\PontoEletronico.Infra\PontoEletronico.Infra.Data.csproj" />
