@@ -3,7 +3,43 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PontoEletronico.Domain", "PontoEletronico.Domain\PontoEletronico.Domain.csproj", "{6D82C8ED-4B78-4F7E-8B2A-550EC7C2799D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PontoEletronico.Web", "PontoEletronico.Web\PontoEletronico.Web.csproj", "{722DFD50-2692-4E0B-BB76-0199CB2FE888}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PontoEletronico.Infra.Data", "PontoEletronico.Infra\PontoEletronico.Infra.Data.csproj", "{B6D64EAB-9E1C-48A6-8578-D10813E5E1E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PontoEletronico.Application", "PontoEletronico.Application\PontoEletronico.Application.csproj", "{46D447DC-2D64-490A-A40B-8F3360E68442}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PontoEletronico.Infra.IoC", "PontoEletronico.Infra.IoC\PontoEletronico.Infra.IoC.csproj", "{D6111BE4-B019-4801-A0E4-0C022DB9E3EE}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6D82C8ED-4B78-4F7E-8B2A-550EC7C2799D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D82C8ED-4B78-4F7E-8B2A-550EC7C2799D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D82C8ED-4B78-4F7E-8B2A-550EC7C2799D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D82C8ED-4B78-4F7E-8B2A-550EC7C2799D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{722DFD50-2692-4E0B-BB76-0199CB2FE888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722DFD50-2692-4E0B-BB76-0199CB2FE888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722DFD50-2692-4E0B-BB76-0199CB2FE888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722DFD50-2692-4E0B-BB76-0199CB2FE888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6D64EAB-9E1C-48A6-8578-D10813E5E1E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6D64EAB-9E1C-48A6-8578-D10813E5E1E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6D64EAB-9E1C-48A6-8578-D10813E5E1E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6D64EAB-9E1C-48A6-8578-D10813E5E1E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46D447DC-2D64-490A-A40B-8F3360E68442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46D447DC-2D64-490A-A40B-8F3360E68442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46D447DC-2D64-490A-A40B-8F3360E68442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46D447DC-2D64-490A-A40B-8F3360E68442}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6111BE4-B019-4801-A0E4-0C022DB9E3EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6111BE4-B019-4801-A0E4-0C022DB9E3EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6111BE4-B019-4801-A0E4-0C022DB9E3EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6111BE4-B019-4801-A0E4-0C022DB9E3EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
