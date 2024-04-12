@@ -25,9 +25,17 @@
         <thead>
             <tr>
                 <th>
+                    Matrícula
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Nome)
                 </th>
-                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cargo)
+                </th>
+                <th>
+                    Tipo de Jornada
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -35,7 +43,16 @@
             {
                 <tr>
                     <td>
+                        @Html.DisplayFor(modelItem => item.Matricula)
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cargo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoJornada)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id" title="Editar" class="btn btn-warning">

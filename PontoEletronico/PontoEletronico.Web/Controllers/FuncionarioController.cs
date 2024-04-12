@@ -44,6 +44,7 @@ namespace PontoEletronico.Web.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
+
             var funcionarioDto = await _funcionarioService.GetByIdAsync(id.GetValueOrDefault());
 
             if (funcionarioDto == null) return NotFound();
