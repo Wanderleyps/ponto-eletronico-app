@@ -43,6 +43,10 @@ namespace PontoEletronico.Web
 
             app.UseAuthorization();
 
+            app.UseCors(x => x.AllowAnyHeader()
+                              .AllowAnyMethod()
+                              .AllowAnyOrigin());
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
