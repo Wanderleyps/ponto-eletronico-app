@@ -1,4 +1,6 @@
-﻿@model IEnumerable<PontoEletronico.Application.DTOs.FuncionarioDTO>
+﻿@model PontoEletronico.Application.DTOs.FuncionarioDTO
+@using PontoEletronico.Domain.Enums
+
 
 @{
     ViewData["Title"] = "Cadastrar Novo Funcionario";
@@ -8,3 +10,56 @@
     <h2>@ViewData["Title"]</h2>
 </div>
 <hr />
+
+<form asp-action="Create">
+
+    <div class="form-horizontal">
+
+        <hr />
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Nome" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Matricula" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Matricula" class="form-control" />
+                <span asp-validation-for="Matricula" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Cargo" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Cargo" class="form-control" />
+                <span asp-validation-for="Cargo" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="TipoJornada" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="TipoJornada" asp-items="Html.GetEnumSelectList<TipoJornada>()" class="form-control">
+                    <option value="">Selecione o tipo de jornada</option>
+                </select>
+                <span asp-validation-for="TipoJornada" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Criar" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-info">Voltar para a Lista</a>
+            </div>
+        </div>
+    </div>
+</form>

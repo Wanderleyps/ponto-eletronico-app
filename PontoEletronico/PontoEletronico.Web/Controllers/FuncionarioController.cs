@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using PontoEletronico.Application.DTOs;
 using PontoEletronico.Application.Interfaces;
 using System.Threading.Tasks;
 
@@ -25,19 +26,40 @@ namespace PontoEletronico.Web.Controllers
         }
 
         public async Task<IActionResult> Create()
-        {
-            //ViewBag.CategoryId =
-            //new SelectList(await _categoryService.GetCategories(), "Id", "Name");
-
+        {         
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(FuncionarioDTO funcionarioDto)
+        {
+            if (ModelState.IsValid)
+            {
+                await _funcionarioService.CreateAsync(funcionarioDto);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(funcionarioDto);
         }
 
         public async Task<IActionResult> Edit(int? id)
         {
-            //ViewBag.CategoryId =
-            //new SelectList(await _categoryService.GetCategories(), "Id", "Name");
+            if (id == null) return NotFound();
+            var funcionarioDto = await _funcionarioService.GetByIdAsync(id.GetValueOrDefault());
 
-            return View();
+            if (funcionarioDto == null) return NotFound();
+           
+            return View(funcionarioDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(FuncionarioDTO funcionarioDto)
+        {
+            if (ModelState.IsValid)
+            {
+                await _funcionarioService.UpdateAsync(funcionarioDto);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(funcionarioDto);
         }
     }
 }
