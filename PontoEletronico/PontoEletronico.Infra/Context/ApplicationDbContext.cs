@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PontoEletronico.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PontoEletronico.Infra.Data.Context
 {

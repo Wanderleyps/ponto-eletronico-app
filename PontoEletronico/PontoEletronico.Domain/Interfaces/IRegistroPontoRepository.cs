@@ -11,7 +11,8 @@ namespace PontoEletronico.Domain.Interfaces
     {
         Task<IEnumerable<RegistroPonto>> GetByFuncionarioIdAsync(int funcionarioId);
         Task<IEnumerable<RegistroPonto>> GetByMatriculaFuncionarioAsync(string matricula);
-        Task<IEnumerable<RegistroPonto>> GetByDataAsync(string matricula, DateTime data);
+        Task<IEnumerable<RegistroPonto>> GetByMatriculaDataAsync(string matricula, DateTime data);
+        Task<IEnumerable<RegistroPonto>> GetByFuncionarioIdDataAsync(int funcionarioId, DateTime data);
         Task<IEnumerable<RegistroPonto>> GetByPeriodoAsync(string matricula, DateTime dataInicial, DateTime dataFinal);
         Task<RegistroPonto> GetByIdAsync(int id);
         Task<RegistroPonto> CreateAsync(RegistroPonto registroPonto);

@@ -19,7 +19,7 @@ namespace PontoEletronico.Infra.Data.Repositories
         }
         public async Task<Funcionario> CreateAsync(Funcionario funcionario)
         {
-            _context.Add(funcionario);
+            _context.Funcionarios.Add(funcionario);
             await _context.SaveChangesAsync();
             return funcionario;
         }
@@ -37,14 +37,14 @@ namespace PontoEletronico.Infra.Data.Repositories
 
         public async Task<Funcionario> RemoveAsync(Funcionario funcionario)
         {
-            _context.Remove(funcionario);
+            _context.Funcionarios.Remove(funcionario);
             await _context.SaveChangesAsync();
             return funcionario;
         }
 
         public async Task<Funcionario> UpdateAsync(Funcionario funcionario)
         {
-            _context.Update(funcionario);
+            _context.Funcionarios.Update(funcionario);
             await _context.SaveChangesAsync();
             return funcionario; ;
         }

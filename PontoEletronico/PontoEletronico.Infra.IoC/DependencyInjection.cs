@@ -5,12 +5,6 @@ using PontoEletronico.Application.Mappings;
 using PontoEletronico.Domain.Interfaces;
 using PontoEletronico.Infra.Data.Context;
 using PontoEletronico.Infra.Data.Repositories;
-using PontoEletronico.Application.Mappings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PontoEletronico.Application.Interfaces;
 using PontoEletronico.Application.Services;
 

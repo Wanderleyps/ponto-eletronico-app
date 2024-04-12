@@ -1,0 +1,18 @@
+﻿@model PontoEletronico.Application.DTOs.RegistroPontoDTO
+
+@{
+    ViewData["Title"] = "Registrar Ponto";
+}
+
+<div>
+    <h2>@ViewData["Title"]</h2>
+</div>
+<hr />
+
+<form id="registroForm" asp-controller="RegistroPonto" asp-action="BaterPonto" method="post">
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success">Registrar Ponto</button>
+    </div>
+
+</form>

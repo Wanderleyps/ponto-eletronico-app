@@ -3,6 +3,7 @@ using PontoEletronico.Application.DTOs;
 using PontoEletronico.Application.Interfaces;
 using PontoEletronico.Domain.Entities;
 using PontoEletronico.Domain.Interfaces;
+using PontoEletronico.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,9 @@ namespace PontoEletronico.Application.Services
                 if (registroPontoDTO == null) return null;
 
                 var registroPonto = _mapper.Map<RegistroPonto>(registroPontoDTO);
+
+                registroPonto.Tipo = await DefinirTipoRegistroAsync(registroPontoDTO.FuncionarioId, registroPontoDTO.Data);
+
                 var registroPontoCriado = await _registroPontoRepository.CreateAsync(registroPonto);
 
                 if (registroPontoCriado != null) return null;
@@ -99,13 +103,13 @@ namespace PontoEletronico.Application.Services
             }
         }
 
-        public async Task<IEnumerable<RegistroPontoDTO>> GetByDataAsync(string matricula, DateTime data)
+        public async Task<IEnumerable<RegistroPontoDTO>> GetByMatriculaDataAsync(string matricula, DateTime data)
         {
             try
             {
                 if (string.IsNullOrEmpty(matricula) || data == null) return null;
 
-                var registrosPonto = await _registroPontoRepository.GetByDataAsync(matricula, data);
+                var registrosPonto = await _registroPontoRepository.GetByMatriculaDataAsync(matricula, data);
 
                 if (registrosPonto == null) return null;
 
@@ -163,5 +167,42 @@ namespace PontoEletronico.Application.Services
             }
         }
 
+        private async Task<TipoRegistro> DefinirTipoRegistroAsync(int funcionarioId, DateTime data)
+        {
+            var registrosFuncionario = await _registroPontoRepository.GetByFuncionarioIdAsync(funcionarioId);
+            var quantBatidasDia = registrosFuncionario.Count(b => b.Data == data);
+
+            if (quantBatidasDia == 0)
+            {
+                return TipoRegistro.Entrada;
+            }
+            else if (quantBatidasDia % 2 == 0)
+            {
+                return TipoRegistro.Entrada;
+            }
+            else
+            {
+                return TipoRegistro.Saida;
+            }
+        }
+
+        public async Task<IEnumerable<RegistroPontoDTO>> GetByFuncionarioIdDataAsync(int funcionarioId, DateTime data)
+        {
+            try
+            {
+                if (funcionarioId == 0 || data == null) return null;
+
+                var registrosPonto = await _registroPontoRepository.GetByFuncionarioIdDataAsync(funcionarioId, data);
+
+                if (registrosPonto == null) return null;
+
+                return _mapper.Map<IEnumerable<RegistroPontoDTO>>(registrosPonto);
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
