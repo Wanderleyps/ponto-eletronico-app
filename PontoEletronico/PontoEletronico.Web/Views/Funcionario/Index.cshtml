@@ -8,6 +8,7 @@
     <h2>@ViewData["Title"]</h2>
 </div>
 <hr />
+
 <div class="row">
     <div class="col-md-12">
         <div>
@@ -59,7 +60,7 @@
                             <span class="fas fa-edit">Editar</span>
                         </a>
 
-                        <a asp-controller="RegistroPonto" asp-action="Index" asp-route-id="@item.Id" title="Ver registros" class="btn btn-primary">
+                        <a asp-controller="RegistroPonto" asp-action="Index" asp-route-funcionarioId="@item.Id" title="Ver registros" class="btn btn-primary">
                             <span class="fas fa-search">Ver registros</span>
                         </a>
                     </td>

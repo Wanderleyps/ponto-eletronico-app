@@ -8,3 +8,59 @@
     <h2>@ViewData["Title"]</h2>
 </div>
 <hr />
+
+<div class="panel panel-default">
+
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">Nome</dt>
+            <dd class="col-sm-10">@ViewBag.Funcionario.Nome</dd>
+            <dt class="col-sm-2">Cargo</dt>
+            <dd class="col-sm-10">@ViewBag.Funcionario.Cargo</dd>
+            <dt class="col-sm-2">Tipo de Jornada</dt>
+            <dd class="col-sm-10">@ViewBag.Funcionario.TipoJornada</dd>
+        </dl>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>               
+                <th>
+                    @Html.DisplayNameFor(model => model.Data)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Hora)
+                </th>
+                <th>
+                    Tipo de Registro
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Data)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hora)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tipo)
+                    </td>                    
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" title="Editar" class="btn btn-warning">
+                            <span class="fas fa-edit">Editar</span>
+                        </a>
+
+                        <a asp-action="Delete" asp-route-id="@item.Id" title="Apagar" class="btn btn-danger">
+                            <span class="fas fa-search">Apagar</span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
