@@ -35,7 +35,7 @@ namespace PontoEletronico.Web.Controllers
             
             var registoPontos = await _registoPontoService.GetByFuncionarioIdDataAsync(funcionarioId.GetValueOrDefault(), DateTime.Now.Date);
             
-            if (registoPontos == null) return NotFound();
+            if (!registoPontos.Any()) return RedirectToAction("Index", "Funcionario");
 
             var funcionarioDTO = registoPontos.FirstOrDefault().Funcionario;
 
@@ -88,7 +88,14 @@ namespace PontoEletronico.Web.Controllers
 
             var registoPontos = await _registoPontoService.GetByFuncionarioIdDataAsync(funcionarioId.GetValueOrDefault(), buscarPorData);
 
-            if (!registoPontos.Any()) return RedirectToAction(nameof(Index));
+            //if (!registoPontos.Any()) return RedirectToAction(nameof(Index));
+            if (!registoPontos.Any())
+            { 
+                var funcionario = await _funcionarioService.GetByIdAsync(funcionarioId.GetValueOrDefault());
+                ViewBag.Funcionario = funcionario;
+                ViewBag.BuscarPorData = buscarPorData.ToString("yyyy-MM-dd");
+                return View("Index", registoPontos); 
+            }
 
             var funcionarioDTO = registoPontos.FirstOrDefault().Funcionario;
 
