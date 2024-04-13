@@ -3,11 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PontoEletronico.Application.DTOs;
 using PontoEletronico.Application.Interfaces;
-using PontoEletronico.Application.Services;
-using PontoEletronico.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PontoEletronico.Web.Controllers
@@ -28,7 +25,6 @@ namespace PontoEletronico.Web.Controllers
             _environment = environment;
         }
 
-        // GET: RegistroPontoController
         public async Task<IActionResult> Index(int? funcionarioId)
         {
             //if (funcionarioId == null) return NotFound();
@@ -42,19 +38,11 @@ namespace PontoEletronico.Web.Controllers
             return View(relatorio);
         }
 
-        // GET: RegistroPontoController/Details/5
-        public ActionResult Detail(int id)
-        {
-            return View();
-        }
-
-        // GET: RegistroPontoController/Create
         public async Task<ActionResult> Create()
         {
             return View();
         }
 
-        // POST: RegistroPontoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> BaterPonto(RegistroPontoDTO registroPontoDTO)
@@ -88,59 +76,5 @@ namespace PontoEletronico.Web.Controllers
 
             return View("Index", relatorio);
         }
-
-        // GET: RegistroPontoController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: RegistroPontoController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: RegistroPontoController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: RegistroPontoController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        private RelatorioRegistoPontoDTO GerarRelatorioRegistrosPontos(IEnumerable<RegistroPontoDTO> registoPontos, FuncionarioDTO funcionarioDTO, DateTime data)
-        {
-            RelatorioRegistoPontoDTO relatorio = new()
-            {
-                RegistroPontoDTOs = registoPontos,
-                Funcionario = funcionarioDTO,
-                BuscarPorData = data.ToString("yyyy-MM-dd")
-            };
-            return relatorio;
-        }
-
     }
 }
