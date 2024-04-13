@@ -6,6 +6,7 @@ using PontoEletronico.Application.Interfaces;
 using PontoEletronico.Application.Services;
 using PontoEletronico.Domain.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,8 +19,8 @@ namespace PontoEletronico.Web.Controllers
         private readonly IFuncionarioService _funcionarioService;
         private readonly IWebHostEnvironment _environment;
 
-        public RegistroPontoController(IRegistroPontoService registroPontoService, 
-                                       IFuncionarioService funcionarioService, 
+        public RegistroPontoController(IRegistroPontoService registroPontoService,
+                                       IFuncionarioService funcionarioService,
                                        IWebHostEnvironment environment)
         {
             _registoPontoService = registroPontoService;
@@ -32,19 +33,18 @@ namespace PontoEletronico.Web.Controllers
         {
             //if (funcionarioId == null) return NotFound();
             if (funcionarioId == null) funcionarioId = 1;
-            
+
             var registoPontos = await _registoPontoService.GetByFuncionarioIdDataAsync(funcionarioId.GetValueOrDefault(), DateTime.Now.Date);
-            
+
             if (!registoPontos.Any()) return RedirectToAction("Index", "Funcionario");
 
             var funcionarioDTO = registoPontos.FirstOrDefault().Funcionario;
 
-            if (funcionarioDTO == null) return NotFound();
+            if (funcionarioDTO == null) return RedirectToAction("Index", "Funcionario");
 
-            ViewBag.Funcionario = funcionarioDTO;
-            ViewBag.BuscarPorData = DateTime.Now.ToString("yyyy-MM-dd");
+            RelatorioRegistoPontoDTO relatorio = GerarRelatorio(registoPontos, funcionarioDTO, DateTime.Now.Date);
 
-            return View(registoPontos);
+            return View(relatorio);
         }
 
         // GET: RegistroPontoController/Details/5
@@ -65,8 +65,8 @@ namespace PontoEletronico.Web.Controllers
         public async Task<ActionResult> BaterPonto(RegistroPontoDTO registroPontoDTO)
         {
             DateTime dataHoraAtual = DateTime.Now;
-            DateTime dataAtual = dataHoraAtual.Date; // Obtém apenas a data (sem a hora)
-            TimeSpan horaAtual = dataHoraAtual.TimeOfDay; // Obtém apenas a hora (sem a data)
+            DateTime dataAtual = dataHoraAtual.Date;
+            TimeSpan horaAtual = dataHoraAtual.TimeOfDay;
 
             var registroPonto = await _registoPontoService.CreateAsync(new RegistroPontoDTO
             {
@@ -76,8 +76,8 @@ namespace PontoEletronico.Web.Controllers
             });
             //var registroGravado = await _registoPontoService.CreateAsync(registroPontoDTO);
 
-            return RedirectToAction(nameof(Index));           
-            
+            return RedirectToAction(nameof(Index));
+
         }
 
         [HttpPost]
@@ -88,23 +88,24 @@ namespace PontoEletronico.Web.Controllers
 
             var registoPontos = await _registoPontoService.GetByFuncionarioIdDataAsync(funcionarioId.GetValueOrDefault(), buscarPorData);
 
-            //if (!registoPontos.Any()) return RedirectToAction(nameof(Index));
+            RelatorioRegistoPontoDTO relatorio;
+
             if (!registoPontos.Any())
-            { 
+            {
                 var funcionario = await _funcionarioService.GetByIdAsync(funcionarioId.GetValueOrDefault());
-                ViewBag.Funcionario = funcionario;
-                ViewBag.BuscarPorData = buscarPorData.ToString("yyyy-MM-dd");
-                return View("Index", registoPontos); 
+
+                relatorio = GerarRelatorio(registoPontos, funcionario, buscarPorData);
+
+                return View("Index", relatorio);
             }
 
             var funcionarioDTO = registoPontos.FirstOrDefault().Funcionario;
 
             if (funcionarioDTO == null) return NotFound();
 
-            ViewBag.Funcionario = funcionarioDTO;
-            ViewBag.BuscarPorData = buscarPorData.ToString("yyyy-MM-dd");
+            relatorio = GerarRelatorio(registoPontos, funcionarioDTO, buscarPorData);
 
-            return View("Index", registoPontos);
+            return View("Index", relatorio);
         }
 
         // GET: RegistroPontoController/Edit/5
@@ -148,5 +149,17 @@ namespace PontoEletronico.Web.Controllers
                 return View();
             }
         }
+
+        private RelatorioRegistoPontoDTO GerarRelatorio(IEnumerable<RegistroPontoDTO> registoPontos, FuncionarioDTO funcionarioDTO, DateTime data)
+        {
+            RelatorioRegistoPontoDTO relatorio = new()
+            {
+                RegistroPontoDTOs = registoPontos,
+                Funcionario = funcionarioDTO,
+                BuscarPorData = data.ToString("yyyy-MM-dd")
+            };
+            return relatorio;
+        }
+
     }
 }
