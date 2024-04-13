@@ -15,11 +15,13 @@ namespace PontoEletronico.Application.Services
     public class RegistroPontoService : IRegistroPontoService
     {
         private readonly IRegistroPontoRepository _registroPontoRepository;
+        private readonly IFuncionarioService _funcionarioService;
         private readonly IMapper _mapper;
 
-        public RegistroPontoService(IRegistroPontoRepository registroPontoRepository, IMapper mapper)
+        public RegistroPontoService(IRegistroPontoRepository registroPontoRepository, IFuncionarioService funcionarioService, IMapper mapper)
         {
             _registroPontoRepository = registroPontoRepository;
+            _funcionarioService = funcionarioService;
             _mapper = mapper;
         }
 
@@ -203,6 +205,57 @@ namespace PontoEletronico.Application.Services
 
                 throw new Exception(e.Message);
             }
+        }
+
+        public async Task<RelatorioRegistoPontoDTO> GerarRelatorioRegistrosPontos(int funcionarioId, DateTime buscarPorData)
+        {
+            TimeSpan seisHoras = TimeSpan.FromHours(6);
+            TimeSpan oitoHoras = TimeSpan.FromHours(8);
+
+            if (funcionarioId == 0 || buscarPorData == null) return null;
+
+            var registoPontos = await this.GetByFuncionarioIdDataAsync(funcionarioId, buscarPorData);
+
+            var funcionarioDTO = await _funcionarioService.GetByIdAsync(funcionarioId);
+            
+            if (registoPontos == null || funcionarioDTO == null) return null;
+
+            var totalHoras = CalcularHorasRealizadas(registoPontos);
+            
+            var isJornadaCompleta = (funcionarioDTO.TipoJornada == TipoJornada.SeisHorasDiarias && totalHoras >= seisHoras) ||
+                        (funcionarioDTO.TipoJornada == TipoJornada.OitoHorasDiarias && totalHoras >= oitoHoras);
+
+            RelatorioRegistoPontoDTO relatorio = new()
+            {
+                RegistroPontoDTOs = registoPontos,
+                Funcionario = funcionarioDTO,
+                BuscarPorData = buscarPorData.ToString("yyyy-MM-dd"),
+                HorasRealizadas = totalHoras.ToString(@"hh\:mm\:ss"),
+                IsJornadaCompleta = isJornadaCompleta,
+            };
+            return relatorio;
+        }
+
+        private TimeSpan CalcularHorasRealizadas(IEnumerable<RegistroPontoDTO> registros)
+        {
+            double horasTotal = 0;
+            RegistroPontoDTO entradaAnterior = null;
+
+            foreach (var registro in registros.OrderBy(r => r.Data).ThenBy(r => r.Hora))
+            {
+                if (registro.Tipo == TipoRegistro.Entrada)
+                {
+                    entradaAnterior = registro;
+                }
+                else if (registro.Tipo == TipoRegistro.Saida && entradaAnterior != null)
+                {
+                    horasTotal += (registro.Hora - entradaAnterior.Hora).TotalHours;
+                    entradaAnterior = null;
+                }
+            }
+
+            TimeSpan horasTotalFormatado = TimeSpan.FromHours(horasTotal);
+            return horasTotalFormatado;
         }
     }
 }

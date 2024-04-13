@@ -14,7 +14,7 @@ namespace PontoEletronico.Application.DTOs
 
         public string BuscarPorData { get; set; }
 
-        public TimeSpan HorasRealizadas { get; set; }
+        public string HorasRealizadas { get; set; }
 
         public TimeSpan HorasFimJornada { get; set; }
 

@@ -23,7 +23,5 @@ namespace PontoEletronico.Application.DTOs
         public int FuncionarioId { get; set; }
 
         public FuncionarioDTO Funcionario { get; set; }
-
-        public string Erro { get; set; }    
     }
 }

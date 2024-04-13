@@ -17,6 +17,7 @@ namespace PontoEletronico.Application.Interfaces
         Task<IEnumerable<RegistroPontoDTO>> GetByFuncionarioIdDataAsync(int funcionarioId, DateTime data);
         Task<IEnumerable<RegistroPontoDTO>> GetByPeriodoAsync(string matricula, DateTime dataInicial, DateTime dataFinal);
         Task<RegistroPontoDTO> UpdateAsync(RegistroPontoDTO registroPontoDTO);
+        Task<RelatorioRegistoPontoDTO> GerarRelatorioRegistrosPontos(int funcionarioId, DateTime buscarPorData);
     }
 
 }
