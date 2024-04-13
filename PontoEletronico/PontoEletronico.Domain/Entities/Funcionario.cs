@@ -1,6 +1,7 @@
 ﻿using PontoEletronico.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PontoEletronico.Domain.Entities
 {
@@ -12,11 +13,13 @@ namespace PontoEletronico.Domain.Entities
 
         public string Nome { get; set; }
 
+        public string Email { get; set; }
+
         public string Cargo { get; set; }
 
         public TipoJornada TipoJornada { get; set; }
 
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         public IEnumerable<RegistroPonto> RegistroPontos { get; set; }
     }

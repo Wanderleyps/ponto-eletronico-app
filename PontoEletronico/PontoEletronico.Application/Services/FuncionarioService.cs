@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using PontoEletronico.Application.DTOs;
 using PontoEletronico.Application.Interfaces;
+using PontoEletronico.Domain.Account;
 using PontoEletronico.Domain.Entities;
 using PontoEletronico.Domain.Interfaces;
+using PontoEletronico.Infra.Data.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +16,14 @@ namespace PontoEletronico.Application.Services
     public class FuncionarioService : IFuncionarioService
     {
         private readonly IFuncionarioRepository _funcionarioRepository;
+        private readonly IExtendedAuthenticate _authentication;
         private readonly IMapper _mapper;
+        private readonly string senhaPadrao = "Senh@123";
 
-        public FuncionarioService(IFuncionarioRepository funcionarioRepository, IMapper mapper)
+        public FuncionarioService(IFuncionarioRepository funcionarioRepository, IExtendedAuthenticate authentication, IMapper mapper)
         {
             _funcionarioRepository = funcionarioRepository;
+            _authentication = authentication;
             _mapper = mapper;
         }
 
@@ -26,6 +31,17 @@ namespace PontoEletronico.Application.Services
         {
             try
             {
+                var userId = string.Empty;
+
+                if (!await _authentication.RegisterUser(funcionarioDTO.Email, this.senhaPadrao))
+                {
+                    return null;
+                }
+                
+                userId = await _authentication.GetUserIdByEmailAsync(funcionarioDTO.Email);
+
+                funcionarioDTO.UserId = userId;
+
                 var funcionario = _mapper.Map<Funcionario>(funcionarioDTO);
                 var funcionarioCriado = await _funcionarioRepository.CreateAsync(funcionario);
 

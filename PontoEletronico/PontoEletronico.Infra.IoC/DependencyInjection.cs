@@ -10,6 +10,7 @@ using PontoEletronico.Application.Services;
 using Microsoft.AspNetCore.Identity;
 using PontoEletronico.Infra.Data.Identity;
 using PontoEletronico.Domain.Account;
+using PontoEletronico.Infra.Data.Interfaces;
 
 namespace PontoEletronico.Infra.IoC
 {
@@ -48,7 +49,7 @@ namespace PontoEletronico.Infra.IoC
             services.AddScoped<IFuncionarioService, FuncionarioService>();
             services.AddScoped<IRegistroPontoService, RegistroPontoService>();
 
-            services.AddScoped<IAuthenticate, AuthenticateService>();
+            services.AddScoped<IExtendedAuthenticate, AuthenticateService>();
             services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));

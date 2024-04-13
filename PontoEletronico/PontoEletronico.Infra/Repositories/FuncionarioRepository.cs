@@ -30,6 +30,12 @@ namespace PontoEletronico.Infra.Data.Repositories
                 .SingleOrDefaultAsync(p => p.Id == id);
         }
 
+        public async Task<Funcionario> GetByUserIdAsync(string userId)
+        {
+            return await _context.Funcionarios.Include(c => c.RegistroPontos)
+                .SingleOrDefaultAsync(p => p.UserId == userId);
+        }
+
         public async Task<IEnumerable<Funcionario>> GetFuncionariosAsync()
         {
             return await _context.Funcionarios.OrderByDescending(f => f.Id).ToListAsync();

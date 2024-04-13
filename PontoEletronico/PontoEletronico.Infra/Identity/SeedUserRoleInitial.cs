@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using PontoEletronico.Domain.Account;
+using PontoEletronico.Domain.Entities;
+using PontoEletronico.Domain.Enums;
+using PontoEletronico.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,70 +15,82 @@ namespace PontoEletronico.Infra.Data.Identity
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IFuncionarioRepository _funcionarioRepository;
 
         public SeedUserRoleInitial(RoleManager<IdentityRole> roleManager,
-              UserManager<ApplicationUser> userManager)
+              UserManager<ApplicationUser> userManager,
+              IFuncionarioRepository funcionarioRepository)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _funcionarioRepository = funcionarioRepository;
         }
 
-        public void SeedUsers()
+        public async void SeedUsers()
         {
-            if (_userManager.FindByEmailAsync("usuario@localhost").Result == null)
+            //if (_userManager.FindByEmailAsync("usuario@localhost").Result == null)
+            //{
+            //    ApplicationUser user = new ApplicationUser();
+            //    user.UserName = "usuario@localhost";
+            //    user.Email = "usuario@localhost";
+            //    user.NormalizedUserName = "USUARIO@LOCALHOST";
+            //    user.NormalizedEmail = "USUARIO@LOCALHOST";
+            //    user.EmailConfirmed = true;
+            //    user.LockoutEnabled = false;
+            //    user.SecurityStamp = Guid.NewGuid().ToString();
+
+            //    IdentityResult result = _userManager.CreateAsync(user, "Numsey#2021").Result;
+
+            //    if (result.Succeeded)
+            //    {
+            //        _userManager.AddToRoleAsync(user, "User").Wait();
+            //    }
+            //}
+
+            if (_userManager.FindByEmailAsync("admin@admin").Result == null)
             {
                 ApplicationUser user = new ApplicationUser();
-                user.UserName = "usuario@localhost";
-                user.Email = "usuario@localhost";
-                user.NormalizedUserName = "USUARIO@LOCALHOST";
-                user.NormalizedEmail = "USUARIO@LOCALHOST";
+                user.UserName = "admin@admin";
+                user.Email = "admin@admin";
                 user.EmailConfirmed = true;
                 user.LockoutEnabled = false;
                 user.SecurityStamp = Guid.NewGuid().ToString();
 
-                IdentityResult result = _userManager.CreateAsync(user, "Numsey#2021").Result;
-
-                if (result.Succeeded)
-                {
-                    _userManager.AddToRoleAsync(user, "User").Wait();
-                }
-            }
-
-            if (_userManager.FindByEmailAsync("admin@localhost").Result == null)
-            {
-                ApplicationUser user = new ApplicationUser();
-                user.UserName = "admin@localhost";
-                user.Email = "admin@localhost";
-                user.NormalizedUserName = "ADMIN@LOCALHOST";
-                user.NormalizedEmail = "ADMIN@LOCALHOST";
-                user.EmailConfirmed = true;
-                user.LockoutEnabled = false;
-                user.SecurityStamp = Guid.NewGuid().ToString();
-
-                IdentityResult result = _userManager.CreateAsync(user, "Numsey#2021").Result;
+                IdentityResult result = _userManager.CreateAsync(user, "Senh@123").Result;
 
                 if (result.Succeeded)
                 {
                     _userManager.AddToRoleAsync(user, "Admin").Wait();
                 }
+
+                user = _userManager.FindByEmailAsync("admin@admin").Result;                
+
+                await _funcionarioRepository.CreateAsync(new Funcionario
+                {
+                    Nome = "Admin",
+                    Matricula = "99999",
+                    Cargo = "Admin",
+                    TipoJornada = TipoJornada.OitoHorasDiarias,
+                    UserId = user != null ? user.Id : string.Empty,
+                });
             }
 
         }
 
         public void SeedRoles()
         {
-            if (!_roleManager.RoleExistsAsync("User").Result)
+            if (!_roleManager.RoleExistsAsync(TypeRole.Funcionario.ToString()).Result)
             {
                 IdentityRole role = new IdentityRole();
-                role.Name = "User";
-                role.NormalizedName = "USER";
+                role.Name = TypeRole.Funcionario.ToString();
+                role.NormalizedName = TypeRole.Funcionario.ToString().ToUpper();
                 IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
             }
-            if (!_roleManager.RoleExistsAsync("Admin").Result)
+            if (!_roleManager.RoleExistsAsync(TypeRole.Admin.ToString()).Result)
             {
                 IdentityRole role = new IdentityRole();
-                role.Name = "Admin";
-                role.NormalizedName = "ADMIN";
+                role.Name = TypeRole.Admin.ToString();
+                role.NormalizedName = TypeRole.Admin.ToString().ToUpper();
                 IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
             }
         }

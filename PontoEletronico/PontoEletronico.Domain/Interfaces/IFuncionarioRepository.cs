@@ -11,6 +11,7 @@ namespace PontoEletronico.Domain.Interfaces
     {
         Task<IEnumerable<Funcionario>> GetFuncionariosAsync();
         Task<Funcionario> GetByIdAsync(int id);
+        Task<Funcionario> GetByUserIdAsync(string userId);
         Task<Funcionario> CreateAsync(Funcionario funcionario);
         Task<Funcionario> UpdateAsync(Funcionario funcionario);
         Task<Funcionario> RemoveAsync(Funcionario funcionario);

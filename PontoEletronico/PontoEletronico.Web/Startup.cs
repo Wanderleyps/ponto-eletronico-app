@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PontoEletronico.Infra.IoC;
 using Microsoft.Extensions.Hosting;
+using PontoEletronico.Infra.Data.Identity;
+using PontoEletronico.Domain.Account;
 
 namespace PontoEletronico.Web
 {
@@ -24,7 +26,7 @@ namespace PontoEletronico.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ISeedUserRoleInitial seedUserRoleInitial)
         {
             if (env.IsDevelopment())
             {
@@ -41,6 +43,12 @@ namespace PontoEletronico.Web
 
             app.UseRouting();
 
+            //criando users e roles iniciais
+            seedUserRoleInitial.SeedRoles();
+            //seedUserRoleInitial.SeedUsers();
+
+            //importante seguir essa ordem
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseCors(x => x.AllowAnyHeader()

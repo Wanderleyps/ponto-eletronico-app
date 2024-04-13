@@ -15,11 +15,17 @@ namespace PontoEletronico.Application.DTOs
         [StringLength(100, ErrorMessage = "O nome deve ter no máximo 100 caracteres.")]
         public string Nome { get; set; }
 
+        [Required(ErrorMessage = "O e-mail é obrigatório.")]
+        [StringLength(256, ErrorMessage = "O e-mail deve ter no máximo 256 caracteres.")]
+        public string Email { get; set; }
+
         [Required(ErrorMessage = "O cargo é obrigatório.")]
         [StringLength(100, ErrorMessage = "O cargo deve ter no máximo 100 caracteres.")]
         public string Cargo { get; set; }
 
         [Required(ErrorMessage = "O tipo de jornada é obrigatório.")]
         public TipoJornada TipoJornada { get; set; }
+
+        public string UserId { get; set; }
     }
 }

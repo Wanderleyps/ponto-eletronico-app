@@ -8,6 +8,7 @@ public class FuncionarioConfiguration : IEntityTypeConfiguration<Funcionario>
     {
         builder.HasKey(f => f.Id);
         builder.Property(p => p.Nome).HasMaxLength(100).IsRequired();
+        builder.Property(p => p.Email).HasMaxLength(256).IsRequired();
         builder.Property(p => p.Matricula).HasMaxLength(50).IsRequired();
         builder.Property(p => p.Cargo).HasMaxLength(100).IsRequired();
         builder.Property(p => p.TipoJornada).IsRequired();
