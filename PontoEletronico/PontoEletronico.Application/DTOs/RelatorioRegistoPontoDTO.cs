@@ -16,9 +16,9 @@ namespace PontoEletronico.Application.DTOs
 
         public string HorasRealizadas { get; set; }
 
-        public TimeSpan HorasFimJornada { get; set; }
+        public string HorasFimJornada { get; set; }
 
-        public TimeSpan HorasExtras { get; set; }
+        public string HorasExtras { get; set; }
 
         public bool IsJornadaCompleta { get; set; }
     }

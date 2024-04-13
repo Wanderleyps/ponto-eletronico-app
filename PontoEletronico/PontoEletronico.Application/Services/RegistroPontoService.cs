@@ -17,6 +17,8 @@ namespace PontoEletronico.Application.Services
         private readonly IRegistroPontoRepository _registroPontoRepository;
         private readonly IFuncionarioService _funcionarioService;
         private readonly IMapper _mapper;
+        private readonly TimeSpan seisHoras = TimeSpan.FromHours(6);
+        private readonly TimeSpan oitoHoras = TimeSpan.FromHours(8);
 
         public RegistroPontoService(IRegistroPontoRepository registroPontoRepository, IFuncionarioService funcionarioService, IMapper mapper)
         {
@@ -208,10 +210,7 @@ namespace PontoEletronico.Application.Services
         }
 
         public async Task<RelatorioRegistoPontoDTO> GerarRelatorioRegistrosPontos(int funcionarioId, DateTime buscarPorData)
-        {
-            TimeSpan seisHoras = TimeSpan.FromHours(6);
-            TimeSpan oitoHoras = TimeSpan.FromHours(8);
-
+        {        
             if (funcionarioId == 0 || buscarPorData == null) return null;
 
             var registoPontos = await this.GetByFuncionarioIdDataAsync(funcionarioId, buscarPorData);
@@ -222,8 +221,12 @@ namespace PontoEletronico.Application.Services
 
             var totalHoras = CalcularHorasRealizadas(registoPontos);
             
-            var isJornadaCompleta = (funcionarioDTO.TipoJornada == TipoJornada.SeisHorasDiarias && totalHoras >= seisHoras) ||
-                        (funcionarioDTO.TipoJornada == TipoJornada.OitoHorasDiarias && totalHoras >= oitoHoras);
+            var isJornadaCompleta = (funcionarioDTO.TipoJornada == TipoJornada.SeisHorasDiarias && totalHoras >= this.seisHoras) ||
+                        (funcionarioDTO.TipoJornada == TipoJornada.OitoHorasDiarias && totalHoras >= this.oitoHoras);
+
+            var horasRestantes = CalcularHorasRestantes(funcionarioDTO, totalHoras, isJornadaCompleta);
+
+            var horasExtras = CalcularHorasExtras(funcionarioDTO, totalHoras, isJornadaCompleta);
 
             RelatorioRegistoPontoDTO relatorio = new()
             {
@@ -231,6 +234,8 @@ namespace PontoEletronico.Application.Services
                 Funcionario = funcionarioDTO,
                 BuscarPorData = buscarPorData.ToString("yyyy-MM-dd"),
                 HorasRealizadas = totalHoras.ToString(@"hh\:mm\:ss"),
+                HorasFimJornada = horasRestantes.ToString(@"hh\:mm\:ss"),
+                HorasExtras = horasExtras.ToString(@"hh\:mm\:ss"),
                 IsJornadaCompleta = isJornadaCompleta,
             };
             return relatorio;
@@ -257,5 +262,49 @@ namespace PontoEletronico.Application.Services
             TimeSpan horasTotalFormatado = TimeSpan.FromHours(horasTotal);
             return horasTotalFormatado;
         }
+
+        private TimeSpan CalcularHorasRestantes(FuncionarioDTO funcionarioDTO, TimeSpan totalHoras, bool isJornadaCompleta)
+        {
+            TimeSpan horasRestantes = TimeSpan.Zero;
+
+            if (isJornadaCompleta)
+            {
+                return horasRestantes;
+            }
+
+            if (funcionarioDTO.TipoJornada == TipoJornada.SeisHorasDiarias)
+            {
+                horasRestantes = this.seisHoras - totalHoras;
+            }
+            else if (funcionarioDTO.TipoJornada == TipoJornada.OitoHorasDiarias)
+            {
+                horasRestantes = this.oitoHoras - totalHoras;
+            }            
+
+            return horasRestantes;
+        }
+
+        private TimeSpan CalcularHorasExtras(FuncionarioDTO funcionarioDTO, TimeSpan totalHoras, bool isJornadaCompleta)
+        {
+            TimeSpan horasExtras = TimeSpan.Zero;
+
+            if (!isJornadaCompleta)
+            {
+                return horasExtras;
+            }
+
+            if (funcionarioDTO.TipoJornada == TipoJornada.SeisHorasDiarias && totalHoras > this.seisHoras)
+            {
+                horasExtras = totalHoras - this.seisHoras;
+            }
+            else if (funcionarioDTO.TipoJornada == TipoJornada.OitoHorasDiarias && totalHoras > this.oitoHoras)
+            {
+                horasExtras = totalHoras - this.oitoHoras;
+            }
+
+            return horasExtras;
+        }
+
+
     }
 }
