@@ -45,7 +45,7 @@
 
     <hr />
 
-    <form asp-controller="RegistroPonto" asp-action="BuscarPorData" method="post">
+    <form asp-controller="RegistroPonto" asp-action="BuscarPorData" asp-route-funcionarioId="@Model.Funcionario.Id" method="post">
         <div class="row">
             <div class="col-md-6">
                 <label for="buscarPorData" class="col-md-4 control-label"><strong>Buscar por data</strong></label>

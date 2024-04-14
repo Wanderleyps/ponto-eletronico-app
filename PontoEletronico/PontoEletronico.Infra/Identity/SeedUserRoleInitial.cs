@@ -28,51 +28,37 @@ namespace PontoEletronico.Infra.Data.Identity
 
         public async void SeedUsers()
         {
-            //if (_userManager.FindByEmailAsync("usuario@localhost").Result == null)
-            //{
-            //    ApplicationUser user = new ApplicationUser();
-            //    user.UserName = "usuario@localhost";
-            //    user.Email = "usuario@localhost";
-            //    user.NormalizedUserName = "USUARIO@LOCALHOST";
-            //    user.NormalizedEmail = "USUARIO@LOCALHOST";
-            //    user.EmailConfirmed = true;
-            //    user.LockoutEnabled = false;
-            //    user.SecurityStamp = Guid.NewGuid().ToString();
+            var email = "admin@local";
+            var senha = "Senh@123";
+            var matricula = "000000";
 
-            //    IdentityResult result = _userManager.CreateAsync(user, "Numsey#2021").Result;
-
-            //    if (result.Succeeded)
-            //    {
-            //        _userManager.AddToRoleAsync(user, "User").Wait();
-            //    }
-            //}
-
-            if (_userManager.FindByEmailAsync("admin@admin").Result == null)
+            if (_userManager.FindByEmailAsync(email).Result == null)
             {
                 ApplicationUser user = new ApplicationUser();
-                user.UserName = "admin@admin";
-                user.Email = "admin@admin";
+                user.UserName = email;
+                user.Email = email;
                 user.EmailConfirmed = true;
                 user.LockoutEnabled = false;
                 user.SecurityStamp = Guid.NewGuid().ToString();
 
-                IdentityResult result = _userManager.CreateAsync(user, "Senh@123").Result;
+                IdentityResult result = _userManager.CreateAsync(user, senha).Result;
 
                 if (result.Succeeded)
                 {
-                    _userManager.AddToRoleAsync(user, "Admin").Wait();
-                }
+                    _userManager.AddToRoleAsync(user, TypeRole.Admin.ToString()).Wait();
 
-                user = _userManager.FindByEmailAsync("admin@admin").Result;                
+                    user = _userManager.FindByEmailAsync(email).Result;
 
-                await _funcionarioRepository.CreateAsync(new Funcionario
-                {
-                    Nome = "Admin",
-                    Matricula = "99999",
-                    Cargo = "Admin",
-                    TipoJornada = TipoJornada.OitoHorasDiarias,
-                    UserId = user != null ? user.Id : string.Empty,
-                });
+                    await _funcionarioRepository.CreateAsync(new Funcionario
+                    {
+                        Nome = TypeRole.Admin.ToString(),
+                        Email = email,
+                        Matricula = matricula,
+                        Cargo = TypeRole.Admin.ToString(),
+                        TipoJornada = TipoJornada.OitoHorasDiarias,
+                        UserId = user.Id,
+                    });
+                }                
             }
 
         }

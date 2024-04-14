@@ -75,13 +75,10 @@ namespace PontoEletronico.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> BuscarPorData(DateTime buscarPorData)
-        {
-            
-            var funcionarioId = await _authentication.GetFuncionarioIdByUserNameAsync(this.HttpContext.User.Identity.Name);
-            
+        public async Task<ActionResult> BuscarPorData(int? funcionarioId, DateTime buscarPorData)
+        {            
             var relatorio = await _registoPontoService.
-                GerarRelatorioRegistrosPontos(funcionarioId, buscarPorData);
+                GerarRelatorioRegistrosPontos(funcionarioId.GetValueOrDefault(), buscarPorData);
 
             if (relatorio == null) return RedirectToAction("Index");
 

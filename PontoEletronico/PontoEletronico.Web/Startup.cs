@@ -45,7 +45,7 @@ namespace PontoEletronico.Web
 
             //criando users e roles iniciais
             seedUserRoleInitial.SeedRoles();
-            //seedUserRoleInitial.SeedUsers();
+            seedUserRoleInitial.SeedUsers();
 
             //importante seguir essa ordem
             app.UseAuthentication();
