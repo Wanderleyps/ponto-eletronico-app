@@ -60,7 +60,7 @@ namespace PontoEletronico.Web.Controllers
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Tentativa de registro inválida.");
+                ModelState.AddModelError(string.Empty, "Tentativa de registro inválida. A senha deve conter letras maiuscula, menusculas e caracteres especiais");
                 return View(model);
             }
         }

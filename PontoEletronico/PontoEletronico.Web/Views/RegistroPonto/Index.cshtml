@@ -20,19 +20,19 @@
                 <dd class="col-sm-8">@Model.Funcionario.Cargo</dd>
                 <dt class="col-sm-4">Tipo de jornada</dt>
                 <dd class="col-sm-8">@Model.Funcionario.TipoJornada</dd>
-            </dl>
-        </div>
-        <div class="col-md-6">
-            <dl class="row">
                 <dt class="col-sm-4">Jornada completada</dt>
-                @if(Model.IsJornadaCompleta)
+                @if (Model.IsJornadaCompleta)
                 {
-                    <dd class="col-sm-8">Sim</dd>                    
+                    <dd class="col-sm-8">Sim</dd>
                 }
                 else
                 {
                     <dd class="col-sm-8">Não</dd>
                 }
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="row">                
                 <dt class="col-sm-4">Horas realizadas</dt>
                 <dd class="col-sm-8">@Model.HorasRealizadas</dd>
                 <dt class="col-sm-4">Horas restantes</dt>

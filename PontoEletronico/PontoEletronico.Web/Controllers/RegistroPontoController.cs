@@ -60,7 +60,7 @@ namespace PontoEletronico.Web.Controllers
         {
             DateTime dataHoraAtual = DateTime.Now;
             DateTime dataAtual = dataHoraAtual.Date;
-            TimeSpan horaAtual = dataHoraAtual.TimeOfDay;
+            TimeSpan horaAtual = new TimeSpan(dataHoraAtual.Hour, dataHoraAtual.Minute, dataHoraAtual.Second);
             var funcionarioId = await _authentication.GetFuncionarioIdByUserNameAsync(this.HttpContext.User.Identity.Name);
 
             var registroPonto = await _registoPontoService.CreateAsync(new RegistroPontoDTO

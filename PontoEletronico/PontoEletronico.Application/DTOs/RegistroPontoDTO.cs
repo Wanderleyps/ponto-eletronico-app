@@ -13,9 +13,9 @@ namespace PontoEletronico.Application.DTOs
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "O tipo de registro é obrigatório.")]
         public TipoRegistro Tipo { get; set; }
-       
+
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Data { get; set; }
 
         public TimeSpan Hora { get; set; }
@@ -23,5 +23,10 @@ namespace PontoEletronico.Application.DTOs
         public int FuncionarioId { get; set; }
 
         public FuncionarioDTO Funcionario { get; set; }
+
+        public string DataFormatada(DateTime Data)
+        {
+            return Data.ToString("yyyy-MM-dd");
+        }
     }
 }
