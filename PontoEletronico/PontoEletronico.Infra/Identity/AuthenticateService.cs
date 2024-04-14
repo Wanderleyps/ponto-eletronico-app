@@ -51,7 +51,6 @@ namespace PontoEletronico.Infra.Data.Identity
             if (result.Succeeded)
             {
                 _userManager.AddToRoleAsync(applicationUser, TypeRole.Funcionario.ToString()).Wait();
-                await _signInManager.SignInAsync(applicationUser, isPersistent: false);
             }
            
             return result.Succeeded;

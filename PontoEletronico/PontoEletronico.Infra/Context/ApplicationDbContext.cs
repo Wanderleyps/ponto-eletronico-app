@@ -9,7 +9,9 @@ namespace PontoEletronico.Infra.Data.Context
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
-        { }
+        {
+            Database.EnsureCreated();
+        }
 
         //Mapeamento
         public DbSet<Funcionario> Funcionarios { get; set; }

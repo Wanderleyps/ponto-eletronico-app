@@ -2,8 +2,8 @@
 {
     public static class UserDefault
     {
-        public const string Email = "admin@local";
-        public const string Senha = "Senh@123";
+        public const string Email = "admin@admin";
+        public const string Senha = "Senha@123";
         public const string Matricula = "000000";
     }
 }
