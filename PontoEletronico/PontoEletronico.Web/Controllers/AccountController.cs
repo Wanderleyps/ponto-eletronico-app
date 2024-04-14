@@ -44,26 +44,26 @@ namespace PontoEletronico.Web.Controllers
             }
         }
 
-        //public IActionResult Register()
-        //{
-        //    return View();
-        //}
+        public IActionResult MudarSenha()
+        {
+            return View();
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Register(RegisterViewModel model)
-        //{
-        //    var result = await _authentication.RegisterUser(model.Email, model.Password);
+        [HttpPost]
+        public async Task<IActionResult> MudarSenha(MudarSenhaDTO model)
+        {
+            var result = await _authentication.UpdatePasswordAsync(this.HttpContext.User.Identity.Name, model.SenhaAtual, model.NovaSenha);
 
-        //    if (result)
-        //    {
-        //        return Redirect("/");
-        //    }
-        //    else
-        //    {
-        //        ModelState.AddModelError(string.Empty, "Invalid register attempt (password must be strong.");
-        //        return View(model);
-        //    }
-        //}
+            if (result)
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Tentativa de registro inválida.");
+                return View(model);
+            }
+        }
 
         public async Task<IActionResult> Logout()
         {

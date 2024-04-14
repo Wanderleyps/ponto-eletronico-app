@@ -86,16 +86,7 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Tipo)
-                    </td>                    
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" title="Editar" class="btn btn-warning">
-                            <span class="fas fa-edit">Editar</span>
-                        </a>
-
-                        <a asp-action="Delete" asp-route-id="@item.Id" title="Apagar" class="btn btn-danger">
-                            <span class="fas fa-search">Apagar</span>
-                        </a>
-                    </td>
+                    </td> 
                 </tr>
             }
         </tbody>

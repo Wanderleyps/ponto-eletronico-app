@@ -81,5 +81,29 @@ namespace PontoEletronico.Infra.Data.Identity
 
             return funcionario.Id;
         }
+
+        public async Task<bool> UpdateEmailByUserIdAsync(string email, string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null) return false;
+
+            user.Email = email;
+            user.UserName = email;
+            var result = await _userManager.UpdateAsync(user);
+
+            return result.Succeeded;
+        }
+
+        public async Task<bool> UpdatePasswordAsync(string email, string currentPassword, string newPassword)
+        {
+            var user = _userManager.FindByEmailAsync(email).Result;
+
+            if (user == null) return false;
+
+            var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
+            return result.Succeeded;
+        }
     }
 }

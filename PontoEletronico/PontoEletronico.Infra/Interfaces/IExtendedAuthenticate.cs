@@ -11,5 +11,7 @@ namespace PontoEletronico.Infra.Data.Interfaces
     {
         Task<string> GetUserIdByEmailAsync(string email);
         Task<int> GetFuncionarioIdByUserNameAsync(string userName);
+        Task<bool> UpdateEmailByUserIdAsync(string email, string userId);
+        Task<bool> UpdatePasswordAsync(string email, string currentPassword, string newPassword);
     }
 }

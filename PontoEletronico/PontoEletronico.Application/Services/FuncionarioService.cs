@@ -101,6 +101,8 @@ namespace PontoEletronico.Application.Services
             {
                 if(funcionarioDTO == null) return null;
 
+                if(! await _authentication.UpdateEmailByUserIdAsync(funcionarioDTO.Email, funcionarioDTO.UserId)) return null;
+
                 var funcionario = _mapper.Map<Funcionario>(funcionarioDTO);
                 var funcionarioAtualizado = await _funcionarioRepository.UpdateAsync(funcionario);
 
