@@ -28,7 +28,7 @@ namespace PontoEletronico.Infra.Data.Identity
 
             if (user == null) return false;
 
-            var funcionario = _funcionarioRepository.GetByUserIdAsync(user.Id);
+            var funcionario = await _funcionarioRepository.GetByUserIdAsync(user.Id);
 
             if (funcionario == null) return false;
 
@@ -67,6 +67,19 @@ namespace PontoEletronico.Infra.Data.Identity
         public async Task Logout()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public async Task<int> GetFuncionarioIdByUserNameAsync(string userName)
+        {
+            var user = _userManager.FindByNameAsync(userName).Result;
+
+            if (user == null) return 0;
+
+            var funcionario = await _funcionarioRepository.GetByUserIdAsync(user.Id);
+
+            if (funcionario == null) return 0;
+
+            return funcionario.Id;
         }
     }
 }

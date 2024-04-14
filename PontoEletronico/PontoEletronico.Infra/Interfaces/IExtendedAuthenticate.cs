@@ -10,5 +10,6 @@ namespace PontoEletronico.Infra.Data.Interfaces
     public interface IExtendedAuthenticate : IAuthenticate
     {
         Task<string> GetUserIdByEmailAsync(string email);
+        Task<int> GetFuncionarioIdByUserNameAsync(string userName);
     }
 }

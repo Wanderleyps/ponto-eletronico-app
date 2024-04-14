@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PontoEletronico.Application.DTOs;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace PontoEletronico.Web.Controllers
 {
+    [Authorize]
     public class FuncionarioController : Controller
     {
         private readonly IFuncionarioService _funcionarioService;
@@ -18,6 +20,7 @@ namespace PontoEletronico.Web.Controllers
             _environment = environment;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -25,11 +28,13 @@ namespace PontoEletronico.Web.Controllers
             return View(funcionarios);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
         public async Task<IActionResult> Create()
         {         
             return View();
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> Create(FuncionarioDTO funcionarioDto)
         {
@@ -41,6 +46,7 @@ namespace PontoEletronico.Web.Controllers
             return View(funcionarioDto);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();

@@ -39,7 +39,7 @@ namespace PontoEletronico.Application.Services
 
                 var registroPontoCriado = await _registroPontoRepository.CreateAsync(registroPonto);
 
-                if (registroPontoCriado != null) return null;
+                if (registroPontoCriado == null) return null;
 
                 return _mapper.Map<RegistroPontoDTO>(registroPontoCriado);
             }

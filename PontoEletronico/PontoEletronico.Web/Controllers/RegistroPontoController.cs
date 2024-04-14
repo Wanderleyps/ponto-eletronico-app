@@ -1,34 +1,44 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PontoEletronico.Application.DTOs;
 using PontoEletronico.Application.Interfaces;
+using PontoEletronico.Infra.Data.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PontoEletronico.Web.Controllers
 {
+    [Authorize]
     public class RegistroPontoController : Controller
     {
 
         private readonly IRegistroPontoService _registoPontoService;
         private readonly IFuncionarioService _funcionarioService;
+        private readonly IExtendedAuthenticate _authentication;
         private readonly IWebHostEnvironment _environment;
 
         public RegistroPontoController(IRegistroPontoService registroPontoService,
                                        IFuncionarioService funcionarioService,
+                                       IExtendedAuthenticate authentication,
                                        IWebHostEnvironment environment)
         {
             _registoPontoService = registroPontoService;
             _funcionarioService = funcionarioService;
+            _authentication = authentication;
             _environment = environment;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index(int? funcionarioId)
         {
-            //if (funcionarioId == null) return NotFound();
-            if (funcionarioId == null) funcionarioId = 1;
+
+            if (funcionarioId == null)
+            {
+                funcionarioId = await _authentication.GetFuncionarioIdByUserNameAsync(this.HttpContext.User.Identity.Name);                
+            }
 
             RelatorioRegistoPontoDTO relatorio = await _registoPontoService.
                 GerarRelatorioRegistrosPontos(funcionarioId.GetValueOrDefault(), DateTime.Now.Date);
@@ -38,6 +48,7 @@ namespace PontoEletronico.Web.Controllers
             return View(relatorio);
         }
 
+        [HttpGet]
         public async Task<ActionResult> Create()
         {
             return View();
@@ -50,27 +61,27 @@ namespace PontoEletronico.Web.Controllers
             DateTime dataHoraAtual = DateTime.Now;
             DateTime dataAtual = dataHoraAtual.Date;
             TimeSpan horaAtual = dataHoraAtual.TimeOfDay;
+            var funcionarioId = await _authentication.GetFuncionarioIdByUserNameAsync(this.HttpContext.User.Identity.Name);
 
             var registroPonto = await _registoPontoService.CreateAsync(new RegistroPontoDTO
             {
                 Data = dataAtual,
                 Hora = horaAtual,
-                FuncionarioId = 1
+                FuncionarioId = funcionarioId
             });
-            //var registroGravado = await _registoPontoService.CreateAsync(registroPontoDTO);
 
             return RedirectToAction(nameof(Index));
 
         }
 
         [HttpPost]
-        public async Task<ActionResult> BuscarPorData(int? funcionarioId, DateTime buscarPorData)
+        public async Task<ActionResult> BuscarPorData(DateTime buscarPorData)
         {
-            //if (funcionarioId == null) return NotFound();
-            if (funcionarioId == null) funcionarioId = 1;
+            
+            var funcionarioId = await _authentication.GetFuncionarioIdByUserNameAsync(this.HttpContext.User.Identity.Name);
             
             var relatorio = await _registoPontoService.
-                GerarRelatorioRegistrosPontos(funcionarioId.GetValueOrDefault(), buscarPorData);
+                GerarRelatorioRegistrosPontos(funcionarioId, buscarPorData);
 
             if (relatorio == null) return RedirectToAction("Index");
 
