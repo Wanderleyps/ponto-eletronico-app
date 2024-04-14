@@ -27,33 +27,29 @@ namespace PontoEletronico.Infra.Data.Identity
         }
 
         public async void SeedUsers()
-        {
-            var email = "admin@local";
-            var senha = "Senh@123";
-            var matricula = "000000";
-
-            if (_userManager.FindByEmailAsync(email).Result == null)
+        {           
+            if (_userManager.FindByEmailAsync(UserDefault.Email).Result == null)
             {
                 ApplicationUser user = new ApplicationUser();
-                user.UserName = email;
-                user.Email = email;
+                user.UserName = UserDefault.Email;
+                user.Email = UserDefault.Email;
                 user.EmailConfirmed = true;
                 user.LockoutEnabled = false;
                 user.SecurityStamp = Guid.NewGuid().ToString();
 
-                IdentityResult result = _userManager.CreateAsync(user, senha).Result;
+                IdentityResult result = _userManager.CreateAsync(user, UserDefault.Senha).Result;
 
                 if (result.Succeeded)
                 {
                     _userManager.AddToRoleAsync(user, TypeRole.Admin.ToString()).Wait();
 
-                    user = _userManager.FindByEmailAsync(email).Result;
+                    user = _userManager.FindByEmailAsync(UserDefault.Email).Result;
 
                     await _funcionarioRepository.CreateAsync(new Funcionario
                     {
                         Nome = TypeRole.Admin.ToString(),
-                        Email = email,
-                        Matricula = matricula,
+                        Email = UserDefault.Email,
+                        Matricula = UserDefault.Matricula,
                         Cargo = TypeRole.Admin.ToString(),
                         TipoJornada = TipoJornada.OitoHorasDiarias,
                         UserId = user.Id,

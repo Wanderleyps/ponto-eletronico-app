@@ -2,7 +2,6 @@
 using PontoEletronico.Domain.Entities;
 using PontoEletronico.Domain.Interfaces;
 using PontoEletronico.Infra.Data.Context;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,13 +38,6 @@ namespace PontoEletronico.Infra.Data.Repositories
         public async Task<IEnumerable<Funcionario>> GetFuncionariosAsync()
         {
             return await _context.Funcionarios.OrderByDescending(f => f.Id).ToListAsync();
-        }
-
-        public async Task<Funcionario> RemoveAsync(Funcionario funcionario)
-        {
-            _context.Funcionarios.Remove(funcionario);
-            await _context.SaveChangesAsync();
-            return funcionario;
         }
 
         public async Task<Funcionario> UpdateAsync(Funcionario funcionario)

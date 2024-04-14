@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
 using PontoEletronico.Application.DTOs;
 using PontoEletronico.Application.Interfaces;
-using PontoEletronico.Domain.Account;
 using PontoEletronico.Domain.Entities;
 using PontoEletronico.Domain.Interfaces;
+using PontoEletronico.Infra.Data.Identity;
 using PontoEletronico.Infra.Data.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PontoEletronico.Application.Services
@@ -18,7 +16,6 @@ namespace PontoEletronico.Application.Services
         private readonly IFuncionarioRepository _funcionarioRepository;
         private readonly IExtendedAuthenticate _authentication;
         private readonly IMapper _mapper;
-        private readonly string senhaPadrao = "Senh@123";
 
         public FuncionarioService(IFuncionarioRepository funcionarioRepository, IExtendedAuthenticate authentication, IMapper mapper)
         {
@@ -33,7 +30,7 @@ namespace PontoEletronico.Application.Services
             {
                 var userId = string.Empty;
 
-                if (!await _authentication.RegisterUser(funcionarioDTO.Email, this.senhaPadrao))
+                if (!await _authentication.RegisterUser(funcionarioDTO.Email, UserDefault.Senha))
                 {
                     return null;
                 }

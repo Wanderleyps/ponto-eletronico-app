@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using PontoEletronico.Application.DTOs;
 using PontoEletronico.Application.Interfaces;
 using System.Threading.Tasks;
@@ -30,7 +29,7 @@ namespace PontoEletronico.Web.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {         
             return View();
         }

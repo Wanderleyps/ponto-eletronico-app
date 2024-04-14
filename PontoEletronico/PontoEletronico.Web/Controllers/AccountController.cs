@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PontoEletronico.Application.DTOs;
 using PontoEletronico.Domain.Account;
 using PontoEletronico.Infra.Data.Interfaces;
@@ -44,11 +45,13 @@ namespace PontoEletronico.Web.Controllers
             }
         }
 
+        [Authorize]
         public IActionResult MudarSenha()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> MudarSenha(MudarSenhaDTO model)
         {
@@ -65,6 +68,7 @@ namespace PontoEletronico.Web.Controllers
             }
         }
 
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await _authentication.Logout();

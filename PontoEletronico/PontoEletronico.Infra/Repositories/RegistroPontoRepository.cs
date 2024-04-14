@@ -39,47 +39,11 @@ namespace PontoEletronico.Infra.Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<RegistroPonto>> GetByMatriculaFuncionarioAsync(string matricula)
-        {
-            return await _context.RegistroPontos
-                .Include(rp => rp.Funcionario)
-                .Where(rp => rp.Funcionario.Matricula == matricula)
-                .OrderBy(rp => rp.Data)
-                .ThenBy(rp => rp.Hora)
-                .ToListAsync();
-        }
-
-        public async Task<RegistroPonto> RemoveAsync(RegistroPonto registroPonto)
-        {
-            _context.RegistroPontos.Remove(registroPonto);
-            await _context.SaveChangesAsync();
-            return registroPonto;
-        }
-
         public async Task<RegistroPonto> UpdateAsync(RegistroPonto registroPonto)
         {
             _context.RegistroPontos.Update(registroPonto);
             await _context.SaveChangesAsync();
             return registroPonto;
-        }
-
-        public async Task<IEnumerable<RegistroPonto>> GetByMatriculaDataAsync(string matricula, DateTime data)
-        {
-            return await _context.RegistroPontos
-                .Include(rp => rp.Funcionario)
-                .Where(rp => rp.Funcionario.Matricula == matricula && rp.Data.Date == data.Date)
-                .OrderBy(rp => rp.Hora)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<RegistroPonto>> GetByPeriodoAsync(string matricula, DateTime dataInicial, DateTime dataFinal)
-        {
-            return await _context.RegistroPontos
-                .Include(rp => rp.Funcionario)
-                .Where(rp => rp.Funcionario.Matricula == matricula && rp.Data.Date >= dataInicial.Date && rp.Data.Date <= dataFinal.Date)
-                .OrderBy(rp => rp.Data)
-                .ThenBy(rp => rp.Hora)
-                .ToListAsync();
         }
 
         public async Task<IEnumerable<RegistroPonto>> GetByFuncionarioIdDataAsync(int funcionarioId, DateTime data)

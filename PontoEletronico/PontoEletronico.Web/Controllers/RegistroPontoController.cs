@@ -49,13 +49,12 @@ namespace PontoEletronico.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Create()
+        public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> BaterPonto(RegistroPontoDTO registroPontoDTO)
         {
             DateTime dataHoraAtual = DateTime.Now;
