@@ -42,3 +42,9 @@ O projeto consiste em uma aplicação web responsável por registrar a jornada d
      "DefaultConnection": "Host=localhost;Port=5432;Pooling=true;Database=PontoEletronicoDB;User Id=postgres;Password=sua_senha;"
    }
    ```
+
+2. Caso queira executar pelo terminal: dentro da pasta PontoEletronico, abra o terminal e execute o comando: `dotnet watch run -p PontoEletronico.Web` 
+
+## Diagrama ER
+
+![PontoEletronicoBD](https://github.com/Wanderleyps/ponto-eletronico-app/assets/105169695/a8904dba-cc5f-454c-87e0-fced1a34c1f2)
