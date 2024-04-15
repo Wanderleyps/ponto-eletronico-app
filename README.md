@@ -4,7 +4,7 @@ O projeto consiste em uma aplicação web responsável por registrar a jornada d
 
 ## Tecnologias utilizadas
 
-- **Linguagem de Programação: C# - .NET SDK 5.0.408**
+- **Linguagem de Programação: C#**
 - **Framework: ASP.NET Core**
 - **Arquitetura: Clean Architecture**
 - **Banco de Dados: PostgreSQL 16.2**
