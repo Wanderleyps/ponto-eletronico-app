@@ -46,7 +46,7 @@ O projeto consiste em uma aplicação web responsável por registrar a jornada d
 2. Caso queira executar pelo terminal: dentro da pasta PontoEletronico, abra o terminal e execute o comando: `dotnet watch run -p PontoEletronico.Web`
 3. Após executar, a aplicação abrirá uma tela de login, as credênciais padão do perfil Admin são:
 - Usuário: `admin@admin`
-- Senha: `Senha@123`
+- Senha: `Senha@123` (senha padrão para todos os usuários que forem criados)
 - Após realizada a autenticação é possível mudar a senha padrão na própria aplicação.
 
 ## Diagrama ER
