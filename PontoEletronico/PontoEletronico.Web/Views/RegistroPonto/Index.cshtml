@@ -1,0 +1,100 @@
+﻿@model PontoEletronico.Application.DTOs.RelatorioRegistoPontoDTO
+
+@{
+    ViewData["Title"] = "Registro de Pontos";
+}
+
+<div>
+    <h2>@ViewData["Title"]</h2>
+</div>
+<hr />
+
+<div class="panel panel-default">
+
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">Nome</dt>
+                <dd class="col-sm-8">@Model.Funcionario.Nome</dd>
+                <dt class="col-sm-4">Cargo</dt>
+                <dd class="col-sm-8">@Model.Funcionario.Cargo</dd>
+                <dt class="col-sm-4">Tipo de jornada</dt>
+                <dd class="col-sm-8">@Model.Funcionario.TipoJornada</dd>
+                <dt class="col-sm-4">Jornada completada</dt>
+                @if (Model.IsJornadaCompleta)
+                {
+                    <dd class="col-sm-8">Sim</dd>
+                }
+                else
+                {
+                    <dd class="col-sm-8">Não</dd>
+                }
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="row">                
+                <dt class="col-sm-4">Horas realizadas</dt>
+                <dd class="col-sm-8">@Model.HorasRealizadas</dd>
+                <dt class="col-sm-4">Horas restantes</dt>
+                <dd class="col-sm-8">@Model.HorasFimJornada</dd>
+                <dt class="col-sm-4">Horas extras</dt>
+                <dd class="col-sm-8">@Model.HorasExtras</dd>
+            </dl>
+        </div>
+    </div>
+
+    <hr />
+
+    <form asp-controller="RegistroPonto" asp-action="BuscarPorData" asp-route-funcionarioId="@Model.Funcionario.Id" method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="buscarPorData" class="col-md-4 control-label"><strong>Buscar por data</strong></label>
+                <div class="form-group d-flex">
+                    <div class="col-md-8 d-flex">
+                        <input type="date" class="form-control" id="buscarPorData" name="buscarPorData" value="@Model.BuscarPorData">
+                        <button type="submit" class="btn btn-primary ml-2">Buscar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>               
+                <th>
+                    Data
+                </th>
+                <th>
+                    Hora
+                </th>
+                <th>
+                    Tipo de Registro
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.RegistroPontoDTOs)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Data)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hora)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tipo)
+                    </td> 
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    // Define o valor máximo do campo de data como a data atual
+    document.getElementById("buscarPorData").setAttribute("max", new Date().toISOString().split("T")[0]);
+</script>

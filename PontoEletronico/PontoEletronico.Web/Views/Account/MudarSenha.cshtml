@@ -1,0 +1,33 @@
+﻿@model PontoEletronico.Application.DTOs.MudarSenhaDTO
+
+<h3>Mudar Senha</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-controller="Account" asp-action="MudarSenha" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SenhaAtual">Senha Atual</label>
+                <input asp-for="SenhaAtual" class="form-control" />
+                <span asp-validation-for="SenhaAtual" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NovaSenha"></label>
+                <input asp-for="NovaSenha" class="form-control" />
+                <span asp-validation-for="NovaSenha" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmarNovaSenha"></label>
+                <input asp-for="ConfirmarNovaSenha" class="form-control" />
+                <span asp-validation-for="ConfirmarNovaSenha" class="text-danger"></span>
+            </div>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-danger">Voltar</a>
+            <button type="submit" class="btn btn-success">Salvar</button>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
