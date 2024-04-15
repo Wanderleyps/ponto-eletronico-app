@@ -64,7 +64,7 @@ namespace PontoEletronico.Web.Controllers
 
             var registroPonto = await _registoPontoService.CreateAsync(new RegistroPontoDTO
             {
-                Data = dataAtual,
+                Data = dataAtual.ToUniversalTime(),
                 Hora = horaAtual,
                 FuncionarioId = funcionarioId
             });

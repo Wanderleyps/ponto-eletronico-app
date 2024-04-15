@@ -11,7 +11,7 @@ O projeto consiste em uma aplicação web responsável por registrar a jornada d
 
 ## Bibliotecas e Ferramentas
 
-- **.NET SDK 5.0.408**
+- **.NET SDK 6.0.421**
 - **EntityFramework Core**
 - **Identity**
 - **AutoMapper**

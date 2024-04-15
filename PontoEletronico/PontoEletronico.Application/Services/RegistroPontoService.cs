@@ -114,7 +114,7 @@ namespace PontoEletronico.Application.Services
             {
                 if (funcionarioId == 0 || data == null) return null;
 
-                var registrosPonto = await _registroPontoRepository.GetByFuncionarioIdDataAsync(funcionarioId, data);
+                var registrosPonto = await _registroPontoRepository.GetByFuncionarioIdDataAsync(funcionarioId, data.ToUniversalTime());
 
                 if (registrosPonto == null) return null;
 

@@ -6,6 +6,7 @@ using PontoEletronico.Infra.IoC;
 using Microsoft.Extensions.Hosting;
 using PontoEletronico.Infra.Data.Identity;
 using PontoEletronico.Domain.Account;
+using System;
 
 namespace PontoEletronico.Web
 {
@@ -38,6 +39,9 @@ namespace PontoEletronico.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
